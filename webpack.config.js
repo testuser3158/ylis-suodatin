@@ -47,10 +47,12 @@ module.exports = {
               assert(pkg.repository)
               const githubUserName = pkg.repository.match(/github:(.+)\//)[1]
               const githubPagesBaseUrl = `https://${githubUserName}.github.io/${pkg.name}`
+              const githubRepoBaseUrl = `https://github.com/${githubUserName}/${pkg.name}`
 
               return {
                 updateURL: `${githubPagesBaseUrl}/${pkg.name}.meta.js`,
-                downloadURL: `${githubPagesBaseUrl}/${pkg.name}.user.js`
+                downloadURL: `${githubPagesBaseUrl}/${pkg.name}.user.js`,
+                supportURL: `${githubRepoBaseUrl}/issues`
               }
             })()
           : {})
