@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "typeRoots": ["./src/types", "node_modules/@types"],
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "lib": ["dom", "es2017", "es2018", "es2019", "es2020"],
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noImplicitAny": true,
+    "preserveConstEnums": true,
+    "removeComments": false,
+    "skipLibCheck": true,
+    "sourceMap": false,
+    "strict": true,
+    "target": "es6",
+    "resolveJsonModule": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact"
+  },
+  "include": [
+    "src/**/*",
+  ]
+}
