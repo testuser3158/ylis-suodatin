@@ -1,6 +1,7 @@
 // ==UserScript==
 // @name        ylis-suodatin
-// @version     1.0.0
+// @version     1.0.1
+// @supportURL  https://github.com/testuser3158/ylis-suodatin/issues
 // @include     /^https:\/\/ylilauta.org\/[^/]+/.*/
 // @namespace   github:testuser3158/ylis-suodatin
 // @updateURL   https://testuser3158.github.io/ylis-suodatin/ylis-suodatin.meta.js
