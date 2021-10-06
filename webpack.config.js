@@ -52,7 +52,8 @@ module.exports = {
               return {
                 updateURL: `${githubPagesBaseUrl}/${pkg.name}.meta.js`,
                 downloadURL: `${githubPagesBaseUrl}/${pkg.name}.user.js`,
-                supportURL: `${githubRepoBaseUrl}/issues`
+                supportURL: `${githubRepoBaseUrl}/issues`,
+                homepage: githubRepoBaseUrl
               }
             })()
           : {})
