@@ -6,6 +6,7 @@ set -x
 version_arg="$1"
 
 git diff --quiet || (echo 'Dirty worktree' && exit 1)
+yarn test
 yarn version "$version_arg"
 version="v$(jq -r .version package.json)"
 git add package.json .yarn/versions
