@@ -13,7 +13,11 @@ git commit -m "$version"
 git tag "$version"
 yarn build
 cp dist/ylis-suodatin.user.js dist/ylis-suodatin.meta.js gh-pages/
+
 cd gh-pages
 git add ylis-suodatin.user.js ylis-suodatin.meta.js
 git commit -C "$version"
 git push origin gh-pages
+cd ../
+
+git push origin master --tags
