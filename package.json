@@ -5,6 +5,7 @@
   "repository": "github:testuser3158/ylis-suodatin",
   "scripts": {
     "build": "rm -rf dist/ && NODE_ENV=production webpack",
+    "publish": "./scripts/publish",
     "dev": "webpack serve --mode development",
     "test": "yarn tsc --noEmit"
   },

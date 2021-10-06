@@ -1,4 +1,5 @@
 const path = require('path')
+const assert = require('assert')
 const webpack = require('webpack')
 const WebpackUserscript = require('webpack-userscript')
 const isProductionBuild = process.env.NODE_ENV === 'production'
@@ -40,7 +41,19 @@ module.exports = {
       headers: {
         version: !isProductionBuild ? `[version]-build.[buildNo]` : `[version]`,
         include: '/^https:\\/\\/ylilauta.org\\/[^/]+/.*/',
-        namespace: pkg.repository
+        namespace: pkg.repository,
+        ...(isProductionBuild
+          ? (() => {
+              assert(pkg.repository)
+              const githubUserName = pkg.repository.match(/github:(.+)\//)[1]
+              const githubPagesBaseUrl = `https://${githubUserName}.github.io/${pkg.name}`
+
+              return {
+                updateURL: `${githubPagesBaseUrl}/${pkg.name}.meta.js`,
+                downloadURL: `${githubPagesBaseUrl}/${pkg.name}.user.js`
+              }
+            })()
+          : {})
       },
       proxyScript: {
         baseUrl: `file://${path.resolve(__dirname, dist)}`,
