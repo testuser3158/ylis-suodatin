@@ -45,7 +45,7 @@ export function orderRepliesByUpvotes(
       : replies
 
   newReplies.forEach((reply, idx) => {
-    fragment.appendChild(reply.node.cloneNode(true))
+    fragment.appendChild(reply.node)
   })
 
   wrapper.replaceChildren()
