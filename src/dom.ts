@@ -1,9 +1,9 @@
 import { ReplyFilterState, Reply } from './App'
 
 export function getReplies(): Reply[] {
-  return Array.from(
-    document.querySelectorAll('.thread .replies .post')
-  ).map((elem) => parseReplyElement(elem as HTMLElement))
+  return Array.from(document.querySelectorAll('.thread .replies .post')).map(
+    (elem) => parseReplyElement(elem as HTMLElement)
+  )
 }
 
 export function parseReplyElement(node: HTMLElement): Reply {
