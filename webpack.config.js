@@ -59,7 +59,7 @@ module.exports = {
           : {})
       },
       proxyScript: {
-        baseUrl: `file://${path.resolve(__dirname, dist)}`,
+        baseUrl: `file://${dist}`,
         filename: '[basename].proxy.user.js',
         enable: !isProductionBuild
       }
