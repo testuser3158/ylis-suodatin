@@ -38,11 +38,13 @@ function App() {
   useLayoutEffect(() => {
     if (prevState === undefined) return
 
-    if (state.sortByUpvotesOrder !== prevState?.sortByUpvotesOrder) {
-      orderRepliesByUpvotes(state.sortByUpvotesOrder, replies)
-    }
+    requestIdleCallback(() => {
+      if (state.sortByUpvotesOrder !== prevState?.sortByUpvotesOrder) {
+        orderRepliesByUpvotes(state.sortByUpvotesOrder, replies)
+      }
 
-    filterReplies(state)
+      filterReplies(state)
+    })
   }, [state, prevState])
 
   const resetEmbedTypeFilter = () =>
