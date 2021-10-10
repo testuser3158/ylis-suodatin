@@ -58,52 +58,50 @@ function App() {
   }
 
   return (
-    <>
-      <form>
-        <label style={labelStyle}>
-          Kuvat
-          <input
-            style={radioInputStyle}
-            name="embedType"
-            type="radio"
-            value="image"
-            checked={state.embedTypeFilter === 'image'}
-            onChange={onChange}
-            onClick={() => {
-              if (state.embedTypeFilter === 'image') resetEmbedTypeFilter()
-            }}
-          />
-        </label>
-        <label style={labelStyle}>
-          Videot
-          <input
-            style={radioInputStyle}
-            name="embedType"
-            type="radio"
-            value="video"
-            checked={state.embedTypeFilter === 'video'}
-            onChange={onChange}
-            onClick={() => {
-              if (state.embedTypeFilter === 'video') resetEmbedTypeFilter()
-            }}
-          />
-        </label>
-        <button
-          style={{ marginLeft: '1rem' }}
-          onClick={(event) => {
-            setState({
-              ...state,
-              sortByUpvotesOrder:
-                state.sortByUpvotesOrder === null ? 'desc' : null
-            })
-
-            event.preventDefault()
+    <form>
+      <label style={labelStyle}>
+        Kuvat
+        <input
+          style={radioInputStyle}
+          name="embedType"
+          type="radio"
+          value="image"
+          checked={state.embedTypeFilter === 'image'}
+          onChange={onChange}
+          onClick={() => {
+            if (state.embedTypeFilter === 'image') resetEmbedTypeFilter()
           }}
-        >
-          Tää {state.sortByUpvotesOrder === null ? '–' : '↓'}
-        </button>
-      </form>
-    </>
+        />
+      </label>
+      <label style={labelStyle}>
+        Videot
+        <input
+          style={radioInputStyle}
+          name="embedType"
+          type="radio"
+          value="video"
+          checked={state.embedTypeFilter === 'video'}
+          onChange={onChange}
+          onClick={() => {
+            if (state.embedTypeFilter === 'video') resetEmbedTypeFilter()
+          }}
+        />
+      </label>
+      <button
+        style={{ marginLeft: '1rem' }}
+        onClick={(event) => {
+          setState({
+            ...state,
+            sortByUpvotesOrder:
+              state.sortByUpvotesOrder === null ? 'desc' : null
+          })
+
+          event.preventDefault()
+        }}
+      >
+        Tää {state.sortByUpvotesOrder === null ? '–' : '↓'}
+      </button>
+    </form>
   )
 }
 
