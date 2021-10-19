@@ -10,6 +10,7 @@ Ylilauta-sivustolle tarkoitettu "userscript".
 
 Lisää sivulle toiminnon jolla voi:
 
+- näyttää langan vastauksista vain AP:n vastaukset
 - näyttää langan vastauksista vain ne, joissa on kuva tai video -upote
 - järjestää langan vastaukset tää-äänien määrän perusteella suurimmasta
   pienimpään
