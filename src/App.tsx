@@ -5,7 +5,8 @@ import usePrevious from './usePrevious'
 
 const labelStyle = {
   padding: '12px 0px',
-  marginLeft: '1rem'
+  marginLeft: '1rem',
+  cursor: 'pointer'
 }
 
 const inputStyle = {
