@@ -24,8 +24,9 @@ export function parseReplyElement(node: HTMLElement): Reply {
         return undefined
     }
   })()
+  const isOP = node.classList.contains('op')
 
-  return { node, upvotes, embedType }
+  return { node, upvotes, embedType, isOP }
 }
 
 export function orderRepliesByUpvotes(
@@ -53,12 +54,13 @@ export function orderRepliesByUpvotes(
 }
 
 export function isReplyVisible(
-  { embedTypeFilter }: ReplyFilterState,
+  { embedTypeFilter, onlyRepliesFromOp }: ReplyFilterState,
   reply: Reply
 ): boolean {
   return (
-    embedTypeFilter === null ||
-    (embedTypeFilter != null && embedTypeFilter === reply.embedType)
+    (embedTypeFilter === null ||
+      (embedTypeFilter != null && embedTypeFilter === reply.embedType)) &&
+    (onlyRepliesFromOp ? reply.isOP : true)
   )
 }
 

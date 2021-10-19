@@ -8,11 +8,13 @@ export type Reply = {
   node: HTMLElement
   upvotes: number
   embedType?: EmbedType
+  isOP: boolean
 }
 
 export type ReplyFilterState = {
   embedTypeFilter: EmbedType | null
   sortByUpvotesOrder: 'desc' | null
+  onlyRepliesFromOp: boolean
 }
 
 const labelStyle = {
@@ -27,7 +29,8 @@ const radioInputStyle = {
 
 const INITIAL_STATE = {
   embedTypeFilter: null,
-  sortByUpvotesOrder: null
+  sortByUpvotesOrder: null,
+  onlyRepliesFromOp: false
 }
 
 function App() {
@@ -59,6 +62,21 @@ function App() {
 
   return (
     <form>
+      <label style={labelStyle}>
+        Vain AP
+        <input
+          style={radioInputStyle}
+          name="opOnly"
+          type="checkbox"
+          onChange={(event) => {
+            setState({
+              ...state,
+              onlyRepliesFromOp: !state.onlyRepliesFromOp
+            })
+          }}
+          checked={state.onlyRepliesFromOp === true}
+        />
+      </label>
       <label style={labelStyle}>
         Kuvat
         <input
