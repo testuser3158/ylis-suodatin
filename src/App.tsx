@@ -1,7 +1,17 @@
 import { JSX } from 'preact'
-import { useLayoutEffect, useMemo, useState } from 'preact/hooks'
+import { useLayoutEffect, useMemo, useReducer, useState } from 'preact/hooks'
 import { filterReplies, getReplies, orderRepliesByUpvotes } from './dom'
 import usePrevious from './usePrevious'
+
+const labelStyle = {
+  padding: '12px 0px',
+  marginLeft: '1rem'
+}
+
+const inputStyle = {
+  marginLeft: '0.5rem',
+  verticalAlign: 'middle'
+}
 
 export type EmbedType = 'image' | 'video'
 export type Reply = {
@@ -17,15 +27,11 @@ export type ReplyFilterState = {
   onlyRepliesFromOp: boolean
 }
 
-const labelStyle = {
-  padding: '12px 0px',
-  marginLeft: '1rem'
-}
-
-const radioInputStyle = {
-  marginLeft: '0.5rem',
-  verticalAlign: 'middle'
-}
+type Action =
+  | { type: 'RESET_EMBED_TYPE_FILTER' }
+  | { type: 'FILTER_BY_EMBED_TYPE'; value: EmbedType }
+  | { type: 'TOGGLE_OP_ONLY' }
+  | { type: 'NEXT_SORT_ORDER' }
 
 const INITIAL_STATE = {
   embedTypeFilter: null,
@@ -34,7 +40,29 @@ const INITIAL_STATE = {
 }
 
 function App() {
-  const [state, setState] = useState<ReplyFilterState>(INITIAL_STATE)
+  const [state, dispatch] = useReducer<ReplyFilterState, Action>(
+    (prevState, action) => {
+      switch (action.type) {
+        case 'RESET_EMBED_TYPE_FILTER':
+          return { ...prevState, embedTypeFilter: null }
+        case 'FILTER_BY_EMBED_TYPE':
+          return { ...prevState, embedTypeFilter: action.value }
+        case 'TOGGLE_OP_ONLY':
+          return {
+            ...prevState,
+            onlyRepliesFromOp: !prevState.onlyRepliesFromOp
+          }
+        case 'NEXT_SORT_ORDER':
+          return {
+            ...prevState,
+            sortByUpvotesOrder:
+              prevState.sortByUpvotesOrder === null ? 'desc' : null
+          }
+      }
+    },
+    INITIAL_STATE
+  )
+
   const prevState = usePrevious(state)
   const replies = useMemo(() => getReplies(), [])
 
@@ -50,29 +78,16 @@ function App() {
     })
   }, [state, prevState])
 
-  const resetEmbedTypeFilter = () =>
-    setState({ ...state, embedTypeFilter: null })
-
-  const onChange = (event: JSX.TargetedEvent<HTMLInputElement, Event>) => {
-    setState({
-      ...state,
-      embedTypeFilter: event.currentTarget.value as EmbedType
-    })
-  }
-
   return (
     <form>
       <label style={labelStyle}>
         Vain AP
         <input
-          style={radioInputStyle}
+          style={inputStyle}
           name="opOnly"
           type="checkbox"
           onChange={(event) => {
-            setState({
-              ...state,
-              onlyRepliesFromOp: !state.onlyRepliesFromOp
-            })
+            dispatch({ type: 'TOGGLE_OP_ONLY' })
           }}
           checked={state.onlyRepliesFromOp === true}
         />
@@ -80,40 +95,41 @@ function App() {
       <label style={labelStyle}>
         Kuvat
         <input
-          style={radioInputStyle}
+          style={inputStyle}
           name="embedType"
           type="radio"
           value="image"
           checked={state.embedTypeFilter === 'image'}
-          onChange={onChange}
+          onChange={(event) => {
+            dispatch({ type: 'FILTER_BY_EMBED_TYPE', value: 'image' })
+          }}
           onClick={() => {
-            if (state.embedTypeFilter === 'image') resetEmbedTypeFilter()
+            if (state.embedTypeFilter === 'image')
+              dispatch({ type: 'RESET_EMBED_TYPE_FILTER' })
           }}
         />
       </label>
       <label style={labelStyle}>
         Videot
         <input
-          style={radioInputStyle}
+          style={inputStyle}
           name="embedType"
           type="radio"
           value="video"
           checked={state.embedTypeFilter === 'video'}
-          onChange={onChange}
+          onChange={(event) => {
+            dispatch({ type: 'FILTER_BY_EMBED_TYPE', value: 'video' })
+          }}
           onClick={() => {
-            if (state.embedTypeFilter === 'video') resetEmbedTypeFilter()
+            if (state.embedTypeFilter === 'video')
+              dispatch({ type: 'RESET_EMBED_TYPE_FILTER' })
           }}
         />
       </label>
       <button
         style={{ marginLeft: '1rem' }}
         onClick={(event) => {
-          setState({
-            ...state,
-            sortByUpvotesOrder:
-              state.sortByUpvotesOrder === null ? 'desc' : null
-          })
-
+          dispatch({ type: 'NEXT_SORT_ORDER' })
           event.preventDefault()
         }}
       >
