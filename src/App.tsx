@@ -39,6 +39,22 @@ const INITIAL_STATE = {
   onlyRepliesFromOp: false
 }
 
+function Separator() {
+  return (
+    <div
+      style={{
+        borderRight:
+          '1px solid hsl(var(--c-pri-h), calc(var(--c-pri-s) - 20% * var(--l-multi)), calc(var(--c-pri-l) + 5% * var(--l-multi)))',
+        height: '26px',
+        width: '1px',
+        display: 'inline-block',
+        margin: '0 1rem',
+        verticalAlign: 'middle'
+      }}
+    ></div>
+  )
+}
+
 function App() {
   const [state, dispatch] = useReducer<ReplyFilterState, Action>(
     (prevState, action) => {
@@ -92,7 +108,8 @@ function App() {
           checked={state.onlyRepliesFromOp === true}
         />
       </label>
-      <label style={labelStyle}>
+      <Separator />
+      <label style={{ ...labelStyle, marginLeft: 0 }}>
         Kuvat
         <input
           style={inputStyle}
@@ -126,8 +143,8 @@ function App() {
           }}
         />
       </label>
+      <Separator />
       <button
-        style={{ marginLeft: '1rem' }}
         onClick={(event) => {
           dispatch({ type: 'NEXT_SORT_ORDER' })
           event.preventDefault()
