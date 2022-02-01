@@ -14,7 +14,11 @@ export function parseReplyElement(node: HTMLElement): Reply {
   const upvotesStr = node
     .querySelector('.post-upvotes')
     ?.getAttribute('data-count')
+  const downvotesStr = node
+    .querySelector('.post-downvotes')
+    ?.getAttribute('data-count')
   const upvotes = upvotesStr ? parseInt(upvotesStr) : 0
+  const downvotes = downvotesStr ? parseInt(downvotesStr) : 0
   const embedFileClass = node
     .querySelector('.post-file > a')
     ?.getAttribute('class')
@@ -31,7 +35,7 @@ export function parseReplyElement(node: HTMLElement): Reply {
   const isOP = node.classList.contains('op')
   const hasUrl = urlRegexSafe({ strict: true }).test(message)
 
-  return { node, upvotes, embedType, isOP, message, hasUrl }
+  return { node, upvotes, downvotes, embedType, isOP, message, hasUrl }
 }
 
 export function orderRepliesByUpvotes(
@@ -41,12 +45,13 @@ export function orderRepliesByUpvotes(
   const wrapper = document.querySelector('.thread .replies')!
   const items = wrapper.children
   const fragment = document.createDocumentFragment()
+  const direction = sortByUpvotesOrder === 'asc' ? 1 : -1
   const newReplies =
-    sortByUpvotesOrder === 'desc'
+    sortByUpvotesOrder !== null
       ? [...replies].sort((a, b) => {
-          if (a.upvotes < b.upvotes) return 1
-          if (a.upvotes > b.upvotes) return -1
-          else return 0
+          const aVotes = a.upvotes - a.downvotes
+          const bVotes = b.upvotes - b.downvotes
+          return direction * (Number(aVotes > bVotes) - Number(bVotes > aVotes))
         })
       : replies
 

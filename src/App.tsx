@@ -14,19 +14,27 @@ const inputStyle = {
   verticalAlign: 'middle'
 }
 
+function sortOrderSymbol(order: 'asc' | 'desc') {
+  if (order === 'desc') return '↓'
+  if (order === 'asc') return '↑'
+}
+
 export type EmbedType = 'image' | 'video'
 export type Reply = {
   message: string
   hasUrl: boolean
   node: HTMLElement
   upvotes: number
+  downvotes: number
   embedType?: EmbedType
   isOP: boolean
 }
 
+export type SortOrder = 'desc' | 'asc' | null
+
 export type ReplyFilterState = {
   embedTypeFilter: EmbedType | null
-  sortByUpvotesOrder: 'desc' | null
+  sortByUpvotesOrder: SortOrder
   onlyRepliesFromOp: boolean
   onlyUrls: boolean
 }
@@ -80,11 +88,19 @@ function App() {
             onlyUrls: !prevState.onlyUrls
           }
         case 'NEXT_SORT_ORDER':
-          return {
-            ...prevState,
-            sortByUpvotesOrder:
-              prevState.sortByUpvotesOrder === null ? 'desc' : null
-          }
+          return (() => {
+            const nextSortOrder =
+              prevState.sortByUpvotesOrder === null
+                ? 'desc'
+                : prevState.sortByUpvotesOrder === 'desc'
+                ? 'asc'
+                : null
+
+            return {
+              ...prevState,
+              sortByUpvotesOrder: nextSortOrder
+            }
+          })()
       }
     },
     INITIAL_STATE
@@ -174,7 +190,10 @@ function App() {
           event.preventDefault()
         }}
       >
-        Tää {state.sortByUpvotesOrder === null ? '–' : '↓'}
+        Tää
+        {state.sortByUpvotesOrder !== null
+          ? ` ${sortOrderSymbol(state.sortByUpvotesOrder)}`
+          : null}
       </button>
     </form>
   )
