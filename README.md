@@ -1,6 +1,6 @@
 # ylis-suodatin.user.js
 
-<img src="https://user-images.githubusercontent.com/92017896/137935257-bb6d717c-6c3e-4357-804a-05d8f86a566b.png" />
+<img src="https://user-images.githubusercontent.com/92017896/152048529-de0ac56f-2224-484b-948c-aedf04058053.png" />
 
 ## mikä tämä on?
 
@@ -8,12 +8,13 @@ Ylilauta-sivustolle tarkoitettu "userscript".
 
 ## mitä tämä tekee?
 
-Lisää sivulle toiminnon jolla voi:
+Lisää sivulle seuraavat toiminnot:
 
-- näyttää langan vastauksista vain AP:n vastaukset
-- näyttää langan vastauksista vain ne, joissa on kuva tai video -upote
-- järjestää langan vastaukset tää-äänien määrän perusteella suurimmasta
-  pienimpään
+- Näytä langan vastauksista vain AP:n vastaukset
+- Näytä langan vastauksista vain ne, joissa on kuva tai video -upote
+- Näytä langan vastauksista vain ne, joissa on urli
+- Järjestä langan vastaukset tää-äänien määrän perusteella suurimmasta
+  pienimpään, tai päinvastoin
 
 ## miten asennan tämän?
 
