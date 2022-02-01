@@ -28,8 +28,8 @@ Lisää sivulle seuraavat toiminnot:
    tai,
 
    Jos pelottaa asentaa tuntematon minifioitu skripti, pystytä kehitysympäristö,
-   ihmettele koodia, käännä skripti ja raahaa `dist/ylis-suodatin.user.js`
-   selaimeen.
+   ihmettele koodia, käännä skripti (`yarn build`) ja raahaa
+   `dist/ylis-suodatin.user.js` selaimeen.
 
 ## miten pystytän kehitysympäristön?
 
