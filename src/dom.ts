@@ -1,4 +1,5 @@
 import { ReplyFilterState, Reply } from './App'
+import urlRegexSafe from 'url-regex-safe'
 
 export function getReplies(): Reply[] {
   return Array.from(document.querySelectorAll('.thread .replies .post')).map(
@@ -7,6 +8,9 @@ export function getReplies(): Reply[] {
 }
 
 export function parseReplyElement(node: HTMLElement): Reply {
+  const message = node.querySelector<HTMLElement>(
+    '.post-content .message'
+  )!.innerText
   const upvotesStr = node
     .querySelector('.post-upvotes')
     ?.getAttribute('data-count')
@@ -25,8 +29,9 @@ export function parseReplyElement(node: HTMLElement): Reply {
     }
   })()
   const isOP = node.classList.contains('op')
+  const hasUrl = urlRegexSafe({ strict: true }).test(message)
 
-  return { node, upvotes, embedType, isOP }
+  return { node, upvotes, embedType, isOP, message, hasUrl }
 }
 
 export function orderRepliesByUpvotes(
@@ -54,13 +59,14 @@ export function orderRepliesByUpvotes(
 }
 
 export function isReplyVisible(
-  { embedTypeFilter, onlyRepliesFromOp }: ReplyFilterState,
+  { embedTypeFilter, onlyRepliesFromOp, onlyUrls }: ReplyFilterState,
   reply: Reply
 ): boolean {
   return (
     (embedTypeFilter === null ||
       (embedTypeFilter != null && embedTypeFilter === reply.embedType)) &&
-    (onlyRepliesFromOp ? reply.isOP : true)
+    (onlyRepliesFromOp ? reply.isOP : true) &&
+    (onlyUrls ? reply.hasUrl : true)
   )
 }
 

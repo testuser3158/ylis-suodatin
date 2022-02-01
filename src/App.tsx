@@ -16,6 +16,8 @@ const inputStyle = {
 
 export type EmbedType = 'image' | 'video'
 export type Reply = {
+  message: string
+  hasUrl: boolean
   node: HTMLElement
   upvotes: number
   embedType?: EmbedType
@@ -33,6 +35,7 @@ type Action =
   | { type: 'RESET_EMBED_TYPE_FILTER' }
   | { type: 'FILTER_BY_EMBED_TYPE'; value: EmbedType }
   | { type: 'TOGGLE_OP_ONLY' }
+  | { type: 'TOGGLE_URLS_ONLY' }
   | { type: 'NEXT_SORT_ORDER' }
 
 const INITIAL_STATE = {
@@ -71,6 +74,11 @@ function App() {
             ...prevState,
             onlyRepliesFromOp: !prevState.onlyRepliesFromOp
           }
+        case 'TOGGLE_URLS_ONLY':
+          return {
+            ...prevState,
+            onlyUrls: !prevState.onlyUrls
+          }
         case 'NEXT_SORT_ORDER':
           return {
             ...prevState,
@@ -100,10 +108,23 @@ function App() {
   return (
     <form>
       <label style={labelStyle}>
+        Urlit
+        <input
+          style={inputStyle}
+          name="onlyUrls"
+          type="checkbox"
+          onChange={(event) => {
+            dispatch({ type: 'TOGGLE_URLS_ONLY' })
+          }}
+          checked={state.onlyUrls === true}
+        />
+      </label>
+      <Separator />
+      <label style={{ ...labelStyle, marginLeft: 0 }}>
         Vain AP
         <input
           style={inputStyle}
-          name="opOnly"
+          name="onlyRepliesFromOp"
           type="checkbox"
           onChange={(event) => {
             dispatch({ type: 'TOGGLE_OP_ONLY' })
