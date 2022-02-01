@@ -26,6 +26,7 @@ export type ReplyFilterState = {
   embedTypeFilter: EmbedType | null
   sortByUpvotesOrder: 'desc' | null
   onlyRepliesFromOp: boolean
+  onlyUrls: boolean
 }
 
 type Action =
@@ -37,7 +38,8 @@ type Action =
 const INITIAL_STATE = {
   embedTypeFilter: null,
   sortByUpvotesOrder: null,
-  onlyRepliesFromOp: false
+  onlyRepliesFromOp: false,
+  onlyUrls: false
 }
 
 function Separator() {
