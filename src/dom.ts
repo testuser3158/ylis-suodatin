@@ -9,7 +9,7 @@ export function getReplies(): Reply[] {
 
 export function parseReplyElement(node: HTMLElement): Reply {
   const message = node.querySelector<HTMLElement>(
-    '.post-content .message'
+    '.post .post-message'
   )!.innerText
   const upvotesStr = node
     .querySelector('.post-upvotes')
