@@ -2,9 +2,9 @@ import { ReplyFilterState, Reply } from './App'
 import urlRegexSafe from 'url-regex-safe'
 
 export function getReplies(): Reply[] {
-  return Array.from(document.querySelectorAll('.thread .replies .post')).map(
-    (elem) => parseReplyElement(elem as HTMLElement)
-  )
+  return Array.from(
+    document.querySelectorAll('.thread .thread-replies .post')
+  ).map((elem) => parseReplyElement(elem as HTMLElement))
 }
 
 export function parseReplyElement(node: HTMLElement): Reply {
@@ -42,7 +42,7 @@ export function orderRepliesByUpvotes(
   sortByUpvotesOrder: ReplyFilterState['sortByUpvotesOrder'],
   replies: Reply[]
 ): void {
-  const wrapper = document.querySelector('.thread .replies')!
+  const wrapper = document.querySelector('.thread .thread-replies')!
   const items = wrapper.children
   const fragment = document.createDocumentFragment()
   const direction = sortByUpvotesOrder === 'asc' ? 1 : -1
