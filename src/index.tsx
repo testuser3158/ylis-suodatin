@@ -1,7 +1,7 @@
 import { render } from 'preact'
 import App from './App'
 
-const rootContainer = document.querySelector('.board-navigation')
+const rootContainer = document.querySelector('.navigation')
 const root = document.createElement('div')
 
 root.id = 'ylis-suodatin'
