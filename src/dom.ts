@@ -78,8 +78,6 @@ export function isReplyVisible(
 export function filterReplies(filterState: ReplyFilterState): void {
   const replies = getReplies()
   replies.forEach((reply) => {
-    reply.node.style.display = isReplyVisible(filterState, reply)
-      ? 'block'
-      : 'none'
+    reply.node.style.display = isReplyVisible(filterState, reply) ? '' : 'none'
   })
 }
