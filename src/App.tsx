@@ -33,21 +33,23 @@ export type Reply = {
 export type SortOrder = 'desc' | 'asc' | null
 
 export type ReplyFilterState = {
-  embedTypeFilter: EmbedType | null
+  onlyVideos: boolean
+  onlyImages: boolean
   sortByUpvotesOrder: SortOrder
   onlyRepliesFromOp: boolean
   onlyUrls: boolean
 }
 
 type Action =
-  | { type: 'RESET_EMBED_TYPE_FILTER' }
-  | { type: 'FILTER_BY_EMBED_TYPE'; value: EmbedType }
+  | { type: 'TOGGLE_IMAGES_ONLY' }
+  | { type: 'TOGGLE_VIDEOS_ONLY' }
   | { type: 'TOGGLE_OP_ONLY' }
   | { type: 'TOGGLE_URLS_ONLY' }
   | { type: 'NEXT_SORT_ORDER' }
 
-const INITIAL_STATE = {
-  embedTypeFilter: null,
+const INITIAL_STATE: ReplyFilterState = {
+  onlyVideos: false,
+  onlyImages: false,
   sortByUpvotesOrder: null,
   onlyRepliesFromOp: false,
   onlyUrls: false
@@ -73,10 +75,10 @@ function App() {
   const [state, dispatch] = useReducer<ReplyFilterState, Action>(
     (prevState, action) => {
       switch (action.type) {
-        case 'RESET_EMBED_TYPE_FILTER':
-          return { ...prevState, embedTypeFilter: null }
-        case 'FILTER_BY_EMBED_TYPE':
-          return { ...prevState, embedTypeFilter: action.value }
+        case 'TOGGLE_IMAGES_ONLY':
+          return { ...prevState, onlyImages: !prevState.onlyImages }
+        case 'TOGGLE_VIDEOS_ONLY':
+          return { ...prevState, onlyVideos: !prevState.onlyVideos }
         case 'TOGGLE_OP_ONLY':
           return {
             ...prevState,
@@ -132,7 +134,7 @@ function App() {
           onChange={(event) => {
             dispatch({ type: 'TOGGLE_URLS_ONLY' })
           }}
-          checked={state.onlyUrls === true}
+          checked={state.onlyUrls}
         />
       </label>
       <Separator />
@@ -145,7 +147,7 @@ function App() {
           onChange={(event) => {
             dispatch({ type: 'TOGGLE_OP_ONLY' })
           }}
-          checked={state.onlyRepliesFromOp === true}
+          checked={state.onlyRepliesFromOp}
         />
       </label>
       <Separator />
@@ -153,16 +155,11 @@ function App() {
         Kuvat
         <input
           style={inputStyle}
-          name="embedType"
-          type="radio"
-          value="image"
-          checked={state.embedTypeFilter === 'image'}
+          name="onlyImages"
+          type="checkbox"
+          checked={state.onlyImages}
           onChange={(event) => {
-            dispatch({ type: 'FILTER_BY_EMBED_TYPE', value: 'image' })
-          }}
-          onClick={() => {
-            if (state.embedTypeFilter === 'image')
-              dispatch({ type: 'RESET_EMBED_TYPE_FILTER' })
+            dispatch({ type: 'TOGGLE_IMAGES_ONLY' })
           }}
         />
       </label>
@@ -170,16 +167,11 @@ function App() {
         Videot
         <input
           style={inputStyle}
-          name="embedType"
-          type="radio"
-          value="video"
-          checked={state.embedTypeFilter === 'video'}
+          name="onlyVideos"
+          type="checkbox"
+          checked={state.onlyVideos}
           onChange={(event) => {
-            dispatch({ type: 'FILTER_BY_EMBED_TYPE', value: 'video' })
-          }}
-          onClick={() => {
-            if (state.embedTypeFilter === 'video')
-              dispatch({ type: 'RESET_EMBED_TYPE_FILTER' })
+            dispatch({ type: 'TOGGLE_VIDEOS_ONLY' })
           }}
         />
       </label>

@@ -64,12 +64,16 @@ export function orderRepliesByUpvotes(
 }
 
 export function isReplyVisible(
-  { embedTypeFilter, onlyRepliesFromOp, onlyUrls }: ReplyFilterState,
+  { onlyVideos, onlyImages, onlyRepliesFromOp, onlyUrls }: ReplyFilterState,
   reply: Reply
 ): boolean {
+  const embedFilterEnabled = onlyImages || onlyVideos
+  const hasImageEmbed = reply.embedType === 'image'
+  const hasVideoEmbed = reply.embedType === 'video'
   return (
-    (embedTypeFilter === null ||
-      (embedTypeFilter != null && embedTypeFilter === reply.embedType)) &&
+    (embedFilterEnabled
+      ? (onlyImages && hasImageEmbed) || (onlyVideos && hasVideoEmbed)
+      : true) &&
     (onlyRepliesFromOp ? reply.isOP : true) &&
     (onlyUrls ? reply.hasUrl : true)
   )
