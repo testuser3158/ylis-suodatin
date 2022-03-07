@@ -1,27 +1,26 @@
 import { ReplyFilterState, Reply } from './App'
 import urlRegexSafe from 'url-regex-safe'
+import assertDefined from './assertDefined'
 
 export function getReplies(): Reply[] {
-  return Array.from(
-    document.querySelectorAll('.thread .thread-replies .post')
-  ).map((elem) => parseReplyElement(elem as HTMLElement))
+  const posts = document.querySelectorAll('.thread .thread-replies .post')
+  return Array.from(posts).map((elem) => parseReplyElement(elem as HTMLElement))
 }
 
 export function parseReplyElement(node: HTMLElement): Reply {
-  const message = node.querySelector<HTMLElement>(
-    '.post .post-message'
-  )!.innerText
-  const upvotesStr = node
-    .querySelector('.post-upvotes')
-    ?.getAttribute('data-count')
-  const downvotesStr = node
-    .querySelector('.post-downvotes')
-    ?.getAttribute('data-count')
+  const messageElem = node.querySelector<HTMLElement>('.post .post-message')
+  assertDefined(messageElem)
+  const message = messageElem.innerText
+  const upvotesElem = node.querySelector('.post-upvotes')
+  assertDefined(upvotesElem)
+  const upvotesStr = upvotesElem.getAttribute('data-count')
+  const downvotesElem = node.querySelector('.post-downvotes')
+  assertDefined(downvotesElem)
+  const downvotesStr = downvotesElem.getAttribute('data-count')
   const upvotes = upvotesStr ? parseInt(upvotesStr) : 0
   const downvotes = downvotesStr ? parseInt(downvotesStr) : 0
-  const embedFileClass = node
-    .querySelector('.post-file > a')
-    ?.getAttribute('class')
+  const embedFileAnchorElem = node.querySelector('.post-file > a')
+  const embedFileClass = embedFileAnchorElem?.getAttribute('class')
   const embedType = (() => {
     switch (embedFileClass) {
       case 'jpg':
@@ -42,7 +41,8 @@ export function orderRepliesByUpvotes(
   sortByUpvotesOrder: ReplyFilterState['sortByUpvotesOrder'],
   replies: Reply[]
 ): void {
-  const wrapper = document.querySelector('.thread .thread-replies')!
+  const wrapper = document.querySelector('.thread .thread-replies')
+  assertDefined(wrapper)
   const items = wrapper.children
   const fragment = document.createDocumentFragment()
   const direction = sortByUpvotesOrder === 'asc' ? 1 : -1
