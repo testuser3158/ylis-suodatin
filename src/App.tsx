@@ -1,18 +1,7 @@
-import { JSX } from 'preact'
-import { useLayoutEffect, useMemo, useReducer, useState } from 'preact/hooks'
+import { useLayoutEffect, useMemo, useReducer } from 'preact/hooks'
+import { Group, Input, Separator } from './components'
 import { filterReplies, getReplies, orderRepliesByUpvotes } from './dom'
 import usePrevious from './usePrevious'
-
-const labelStyle = {
-  padding: '12px 0px',
-  marginLeft: '1rem',
-  cursor: 'pointer'
-}
-
-const inputStyle = {
-  marginLeft: '0.5rem',
-  verticalAlign: 'middle'
-}
 
 function sortOrderSymbol(order: 'asc' | 'desc') {
   if (order === 'desc') return '↓'
@@ -57,22 +46,6 @@ const INITIAL_STATE: ReplyFilterState = {
   onlyRepliesFromOp: false,
   onlyRepliesFromMyself: false,
   onlyUrls: false
-}
-
-function Separator() {
-  return (
-    <div
-      style={{
-        borderRight:
-          '1px solid hsl(var(--c-pri-h), calc(var(--c-pri-s) - 20% * var(--l-multi)), calc(var(--c-pri-l) + 5% * var(--l-multi)))',
-        height: '26px',
-        width: '1px',
-        display: 'inline-block',
-        margin: '0 1rem',
-        verticalAlign: 'middle'
-      }}
-    ></div>
-  )
 }
 
 function App() {
@@ -134,69 +107,46 @@ function App() {
 
   return (
     <form>
-      <label style={labelStyle}>
-        Urlit
-        <input
-          style={inputStyle}
-          name="onlyUrls"
-          type="checkbox"
-          onChange={(event) => {
-            dispatch({ type: 'TOGGLE_URLS_ONLY' })
-          }}
-          checked={state.onlyUrls}
-        />
-      </label>
+      <Input
+        label="Urlit"
+        name="onlyUrls"
+        type="checkbox"
+        checked={state.onlyUrls}
+        onChange={(event) => dispatch({ type: 'TOGGLE_URLS_ONLY' })}
+      />
       <Separator />
-      <label style={{ ...labelStyle, marginLeft: 0 }}>
-        Omat
-        <input
-          style={inputStyle}
-          name="onlyRepliesFromMyself"
-          type="checkbox"
-          onChange={(event) => {
-            dispatch({ type: 'TOGGLE_OWN_ONLY' })
-          }}
-          checked={state.onlyRepliesFromMyself}
-        />
-      </label>
+      <Input
+        label="Omat"
+        name="onlyRepliesFromMyself"
+        type="checkbox"
+        checked={state.onlyRepliesFromMyself}
+        onChange={(event) => dispatch({ type: 'TOGGLE_OWN_ONLY' })}
+      />
       <Separator />
-      <label style={{ ...labelStyle, marginLeft: 0 }}>
-        AP
-        <input
-          style={inputStyle}
-          name="onlyRepliesFromOp"
-          type="checkbox"
-          onChange={(event) => {
-            dispatch({ type: 'TOGGLE_OP_ONLY' })
-          }}
-          checked={state.onlyRepliesFromOp}
-        />
-      </label>
+      <Input
+        label="AP"
+        name="onlyRepliesFromOp"
+        type="checkbox"
+        checked={state.onlyRepliesFromOp}
+        onChange={(event) => dispatch({ type: 'TOGGLE_OP_ONLY' })}
+      />
       <Separator />
-      <label style={{ ...labelStyle, marginLeft: 0 }}>
-        Kuvat
-        <input
-          style={inputStyle}
+      <Group>
+        <Input
+          label="Kuvat"
           name="onlyImages"
           type="checkbox"
           checked={state.onlyImages}
-          onChange={(event) => {
-            dispatch({ type: 'TOGGLE_IMAGES_ONLY' })
-          }}
+          onChange={(event) => dispatch({ type: 'TOGGLE_IMAGES_ONLY' })}
         />
-      </label>
-      <label style={labelStyle}>
-        Videot
-        <input
-          style={inputStyle}
+        <Input
+          label="Videot"
           name="onlyVideos"
           type="checkbox"
           checked={state.onlyVideos}
-          onChange={(event) => {
-            dispatch({ type: 'TOGGLE_VIDEOS_ONLY' })
-          }}
+          onChange={(event) => dispatch({ type: 'TOGGLE_VIDEOS_ONLY' })}
         />
-      </label>
+      </Group>
       <Separator />
       <button
         onClick={(event) => {
