@@ -28,6 +28,7 @@ export type Reply = {
   downvotes: number
   embedType?: EmbedType
   isOP: boolean
+  isOwn: boolean
 }
 
 export type SortOrder = 'desc' | 'asc' | null
@@ -37,6 +38,7 @@ export type ReplyFilterState = {
   onlyImages: boolean
   sortByUpvotesOrder: SortOrder
   onlyRepliesFromOp: boolean
+  onlyRepliesFromMyself: boolean
   onlyUrls: boolean
 }
 
@@ -44,6 +46,7 @@ type Action =
   | { type: 'TOGGLE_IMAGES_ONLY' }
   | { type: 'TOGGLE_VIDEOS_ONLY' }
   | { type: 'TOGGLE_OP_ONLY' }
+  | { type: 'TOGGLE_OWN_ONLY' }
   | { type: 'TOGGLE_URLS_ONLY' }
   | { type: 'NEXT_SORT_ORDER' }
 
@@ -52,6 +55,7 @@ const INITIAL_STATE: ReplyFilterState = {
   onlyImages: false,
   sortByUpvotesOrder: null,
   onlyRepliesFromOp: false,
+  onlyRepliesFromMyself: false,
   onlyUrls: false
 }
 
@@ -83,6 +87,11 @@ function App() {
           return {
             ...prevState,
             onlyRepliesFromOp: !prevState.onlyRepliesFromOp
+          }
+        case 'TOGGLE_OWN_ONLY':
+          return {
+            ...prevState,
+            onlyRepliesFromMyself: !prevState.onlyRepliesFromMyself
           }
         case 'TOGGLE_URLS_ONLY':
           return {
@@ -135,6 +144,19 @@ function App() {
             dispatch({ type: 'TOGGLE_URLS_ONLY' })
           }}
           checked={state.onlyUrls}
+        />
+      </label>
+      <Separator />
+      <label style={{ ...labelStyle, marginLeft: 0 }}>
+        Omat
+        <input
+          style={inputStyle}
+          name="onlyRepliesFromMyself"
+          type="checkbox"
+          onChange={(event) => {
+            dispatch({ type: 'TOGGLE_OWN_ONLY' })
+          }}
+          checked={state.onlyRepliesFromMyself}
         />
       </label>
       <Separator />

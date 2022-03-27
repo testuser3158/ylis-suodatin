@@ -11,6 +11,7 @@ Ylilauta-sivustolle tarkoitettu "userscript".
 Lisää sivulle seuraavat toiminnot:
 
 - Näytä langan vastauksista vain AP:n vastaukset
+- Näytä langan vastauksista vain omat vastaukset
 - Näytä langan vastauksista vain ne, joissa on kuva tai video -upote
 - Näytä langan vastauksista vain ne, joissa on urli
 - Järjestä langan vastaukset tää-äänien määrän perusteella suurimmasta

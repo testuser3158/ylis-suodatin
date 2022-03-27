@@ -32,9 +32,10 @@ export function parseReplyElement(node: HTMLElement): Reply {
     }
   })()
   const isOP = node.classList.contains('op')
+  const isOwn = node.classList.contains('own')
   const hasUrl = urlRegexSafe({ strict: true }).test(message)
 
-  return { node, upvotes, downvotes, embedType, isOP, message, hasUrl }
+  return { node, upvotes, downvotes, embedType, isOP, isOwn, message, hasUrl }
 }
 
 export function orderRepliesByUpvotes(
@@ -64,7 +65,13 @@ export function orderRepliesByUpvotes(
 }
 
 export function isReplyVisible(
-  { onlyVideos, onlyImages, onlyRepliesFromOp, onlyUrls }: ReplyFilterState,
+  {
+    onlyVideos,
+    onlyImages,
+    onlyRepliesFromOp,
+    onlyRepliesFromMyself,
+    onlyUrls
+  }: ReplyFilterState,
   reply: Reply
 ): boolean {
   const embedFilterEnabled = onlyImages || onlyVideos
@@ -75,6 +82,7 @@ export function isReplyVisible(
       ? (onlyImages && hasImageEmbed) || (onlyVideos && hasVideoEmbed)
       : true) &&
     (onlyRepliesFromOp ? reply.isOP : true) &&
+    (onlyRepliesFromMyself ? reply.isOwn : true) &&
     (onlyUrls ? reply.hasUrl : true)
   )
 }
