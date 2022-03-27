@@ -161,7 +161,7 @@ function App() {
       </label>
       <Separator />
       <label style={{ ...labelStyle, marginLeft: 0 }}>
-        Vain AP
+        AP
         <input
           style={inputStyle}
           name="onlyRepliesFromOp"
