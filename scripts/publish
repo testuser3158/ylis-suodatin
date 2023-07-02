@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Usage: yarn publish <patch|minor|major>
+
 set -euo pipefail
 set -x
 
