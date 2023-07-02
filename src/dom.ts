@@ -19,13 +19,13 @@ export function parseReplyElement(node: HTMLElement): Reply {
   const downvotesStr = downvotesElem.getAttribute('data-count')
   const upvotes = upvotesStr ? parseInt(upvotesStr) : 0
   const downvotes = downvotesStr ? parseInt(downvotesStr) : 0
-  const embedFileAnchorElem = node.querySelector('.post-file > a')
-  const embedFileClass = embedFileAnchorElem?.getAttribute('class')
+  const figure = node.querySelector('figure')
+  const figureDataMediaType = figure?.getAttribute('data-media-type')
   const embedType = (() => {
-    switch (embedFileClass) {
-      case 'jpg':
+    switch (figureDataMediaType) {
+      case 'image':
         return 'image'
-      case 'mp4':
+      case 'video':
         return 'video'
       default:
         return undefined
