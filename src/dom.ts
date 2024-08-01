@@ -14,11 +14,7 @@ export function parseReplyElement(node: HTMLElement): Reply {
   const upvotesElem = node.querySelector('.post-upvotes')
   assertDefined(upvotesElem)
   const upvotesStr = upvotesElem.getAttribute('data-count')
-  const downvotesElem = node.querySelector('.post-downvotes')
-  assertDefined(downvotesElem)
-  const downvotesStr = downvotesElem.getAttribute('data-count')
   const upvotes = upvotesStr ? parseInt(upvotesStr) : 0
-  const downvotes = downvotesStr ? parseInt(downvotesStr) : 0
   const figure = node.querySelector('figure')
   const figureDataMediaType = figure?.getAttribute('data-media-type')
   const embedType = (() => {
@@ -35,7 +31,7 @@ export function parseReplyElement(node: HTMLElement): Reply {
   const isOwn = node.classList.contains('own')
   const hasUrl = urlRegexSafe({ strict: true }).test(message)
 
-  return { node, upvotes, downvotes, embedType, isOP, isOwn, message, hasUrl }
+  return { node, upvotes, embedType, isOP, isOwn, message, hasUrl }
 }
 
 export function orderRepliesByUpvotes(
@@ -50,9 +46,10 @@ export function orderRepliesByUpvotes(
   const newReplies =
     sortByUpvotesOrder !== null
       ? [...replies].sort((a, b) => {
-          const aVotes = a.upvotes - a.downvotes
-          const bVotes = b.upvotes - b.downvotes
-          return direction * (Number(aVotes > bVotes) - Number(bVotes > aVotes))
+          return (
+            direction *
+            (Number(a.upvotes > b.upvotes) - Number(b.upvotes > a.upvotes))
+          )
         })
       : replies
 

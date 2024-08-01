@@ -14,7 +14,6 @@ export type Reply = {
   hasUrl: boolean
   node: HTMLElement
   upvotes: number
-  downvotes: number
   embedType?: EmbedType
   isOP: boolean
   isOwn: boolean
